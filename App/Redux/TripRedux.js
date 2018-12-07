@@ -16,7 +16,7 @@ export default Creators
 
 export const INITIAL_STATE = Immutable({
   fromTo: null,
-  fetching: null,
+  fetching: false,
   trip: null,
   error: null
 })
@@ -24,7 +24,8 @@ export const INITIAL_STATE = Immutable({
 /* ------------- Selectors ------------- */
 
 export const TripSelectors = {
-  getTrip: state => state.trip.trip
+  getTrip: state => state.trip.trip,
+  getIsLoading: state => state.trip.fetching
 }
 
 /* ------------- Reducers ------------- */

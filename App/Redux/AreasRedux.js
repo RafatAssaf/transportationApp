@@ -15,15 +15,16 @@ export default Creators
 /* ------------- Initial State ------------- */
 
 export const INITIAL_STATE = Immutable({
-  fetching: null,
-  areas: null,
+  fetching: false,
+  areas: [],
   error: null
 })
 
 /* ------------- Selectors (for sagas) ------------- */
 
 export const AreasSelectors = {
-  getAreas: state => state.areas.areas
+  getAreas: state => state.areas.areas,
+  getIsLoading: state => state.areas.fetching
 }
 
 /* ------------- Reducers ------------- */

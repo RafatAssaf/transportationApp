@@ -4,8 +4,8 @@ import Immutable from 'seamless-immutable'
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  polylinesRequest: ['polyline'],
-  polylinesSuccess: ['points'],
+  polylinesRequest: ['itineraryCodes'],
+  polylinesSuccess: ['itineraries'],
   polylinesFailure: null
 })
 
@@ -15,33 +15,44 @@ export default Creators
 /* ------------- Initial State ------------- */
 
 export const INITIAL_STATE = Immutable({
-  polyline: null,
+  itineraryCodes: [],
   fetching: null,
-  points: null,
+  itineraries: [],
   error: null
 })
 
 /* ------------- Selectors ------------- */
 
 export const PolylinesSelectors = {
-  getData: state => state.search.points
+  getItineraries: state => state.polylines.itineraries
 }
 
 /* ------------- Reducers ------------- */
 
 // request the data from an api
-export const request = (state, { polyline }) =>
-  state.merge({ fetching: true, polyline, points: null })
+export const request = (state, { itineraryCodes }) =>
+  state.merge({ fetching: true, itineraryCodes, itineraries: [] })
 
 // successful api lookup
 export const success = (state, action) => {
-  const { points } = action
-  return state.merge({ fetching: false, error: null, points })
+  const { itineraries } = action
+
+  //response transformation
+  let processedItineraries = itineraries.map(itinerary => {
+    return itinerary.map(leg => {
+      return leg.data.map(point => ({
+        latitude: point.lat,
+        longitude: point.lon
+      }))
+    })
+  }) 
+
+  return state.merge({ fetching: false, error: null, itineraries: processedItineraries })
 }
 
 // Something went wrong somewhere.
 export const failure = state =>
-  state.merge({ fetching: false, error: true, points: null })
+  state.merge({ fetching: false, error: true, itineraries: [] })
 
 /* ------------- Hookup Reducers To Types ------------- */
 

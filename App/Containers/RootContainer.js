@@ -9,11 +9,14 @@ import ReduxPersist from '../Config/ReduxPersist'
 import styles from './Styles/RootContainerStyles'
 
 class RootContainer extends Component {
+  
   componentDidMount () {
-    // if redux persist is not active fire startup action
-    if (!ReduxPersist.active) {
-      this.props.startup()
-    }
+    this.props.startup() //fire startup action
+    console.disableYellowBox = true // disable yellow boxes during dev mode 
+  }
+
+  componentWillUnmount() {
+    //stop location watcher
   }
 
   render () {

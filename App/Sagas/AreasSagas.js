@@ -5,7 +5,6 @@ const {TransportationAPI} = API
 
 function * getAreas (api) {
   const response = yield call(api.getAreas)
-  console.log(response)
   if (response.ok) {
     yield put(AreasActions.areasSuccess(response.data))
   } else {

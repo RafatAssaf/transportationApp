@@ -10,7 +10,7 @@ export const reducers = combineReducers({
   github: require('./GithubRedux').reducer,
   areas: require('./AreasRedux').reducer,
   search: require('./SearchRedux').reducer,
-  polyline: require('./PolylinesRedux').reducer,
+  polylines: require('./PolylinesRedux').reducer,
   tracking: require('./TrackingRedux').reducer,
   trip: require('./TripRedux').reducer
 })

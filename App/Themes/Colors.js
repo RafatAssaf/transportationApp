@@ -1,5 +1,11 @@
 const colors = {
-  background: '#1F0808',
+  background: '#E8EAED',
+  primary: '#344955',
+  secondryText: '#9B9B9B',
+  yellowAccent: '#F9AA33',
+  blueAccent: '#5B9EEA',
+  white: '#fff',
+
   clear: 'rgba(0,0,0,0)',
   facebook: '#3b5998',
   transparent: 'rgba(0,0,0,0)',
