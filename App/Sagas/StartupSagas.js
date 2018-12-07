@@ -1,12 +1,13 @@
-import { put, select } from 'redux-saga/effects'
+import { put, select, takeLatest } from 'redux-saga/effects'
 import GithubActions, { GithubSelectors } from '../Redux/GithubRedux'
 import { is } from 'ramda'
+import {StartupTypes} from '../Redux/StartupRedux'
 
 // exported to make available for tests
 export const selectAvatar = GithubSelectors.selectAvatar
 
 // process STARTUP actions
-export function * startup (action) {
+function * startup () {
   if (__DEV__ && console.tron) {
     // straight-up string logging
     console.tron.log('Hello, I\'m an example of how to log via Reactotron.')
@@ -38,3 +39,7 @@ export function * startup (action) {
     yield put(GithubActions.userRequest('GantMan'))
   }
 }
+
+export default [
+  takeLatest(StartupTypes.STARTUP, startup)
+]
