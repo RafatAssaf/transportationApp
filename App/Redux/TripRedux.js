@@ -4,9 +4,12 @@ import Immutable from 'seamless-immutable'
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  tripRequest: ['fromPlace', 'toPlace'],
+  //fromPlace & toPlace are self-explainatory, 
+  //locate is a callback to center the map on the fetched data 
+  tripRequest: ['fromPlace', 'toPlace', 'locate'],
   tripSuccess: ['trip'],
-  tripFailure: null
+  tripFailure: null,
+  tripCancel: null
 })
 
 export const TripTypes = Types
@@ -44,10 +47,13 @@ export const success = (state, action) => {
 export const failure = state =>
   state.merge({ fetching: false, error: true, trip: null })
 
+export const cancel = state => INITIAL_STATE
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.TRIP_REQUEST]: request,
   [Types.TRIP_SUCCESS]: success,
-  [Types.TRIP_FAILURE]: failure
+  [Types.TRIP_FAILURE]: failure,
+  [Types.TRIP_CANCEL] : cancel
 })

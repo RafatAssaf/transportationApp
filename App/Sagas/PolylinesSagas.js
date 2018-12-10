@@ -4,9 +4,9 @@ import API from '../Services/Api'
 const {TransportationAPI} = API
 
 function * decodeItineraries (api, action) {
-  const { itineraryCodes } = action
-  try {
+  const { itineraryCodes, locate } = action
 
+  try {
     let decodedPolylines = []
     for(let i = 0 ; i < itineraryCodes.length ; i++ ) {
       let itinerary = []
@@ -16,7 +16,26 @@ function * decodeItineraries (api, action) {
       decodedPolylines.push(itinerary)
     }
 
-    yield put(PolylinesActions.polylinesSuccess(decodedPolylines))
+    let processedItineraries = decodedPolylines.map(itinerary => {
+      return itinerary.map(leg => {
+        return leg.data.map(point => ({
+          latitude: point.lat,
+          longitude: point.lon
+        }))
+      })
+    })
+    let points = processedItineraries.flat().flat()
+    let edgePoints = [
+      points.reduce((max, point) => point.latitude > max.latitude? point: max, points[0]),
+      points.reduce((min, point) => point.latitude < min.latitude? point: min, points[0]),
+      points.reduce((max, point) => point.longitude > max.longitude? point: max, points[0]),
+      points.reduce((min, point) => point.longitude < min.longitude? point: min, points[0])
+    ]
+
+    locate(edgePoints) //fit the map to new data
+
+    yield put(PolylinesActions.polylinesSuccess(processedItineraries, edgePoints))
+
   } catch(e) {
     yield put(PolylinesActions.polylinesFailure())
   }

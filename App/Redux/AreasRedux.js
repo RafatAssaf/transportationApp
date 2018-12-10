@@ -31,7 +31,7 @@ export const AreasSelectors = {
 
 // request the data from an api
 export const request = (state) =>
-  state.merge({ fetching: true, areas: null })
+  state.merge({ fetching: true })
 
 // successful api lookup
 export const success = (state, action) => {
@@ -41,7 +41,7 @@ export const success = (state, action) => {
 
 // Something went wrong somewhere.
 export const failure = state =>
-  state.merge({ fetching: false, error: true, areas: null })
+  state.merge({ fetching: false, error: true, areas: [] })
 
 /* ------------- Hookup Reducers To Types ------------- */
 

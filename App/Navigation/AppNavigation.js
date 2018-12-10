@@ -1,10 +1,11 @@
 import React from 'react'
-import { createStackNavigator, createBottomTabNavigator, createAppContainer } from 'react-navigation'
+import { createBottomTabNavigator, createAppContainer } from 'react-navigation'
 import PlanTrip from '../Containers/Map'
 import Areas from '../Containers/Areas'
 import Trips from '../Containers/Trips'
 import Profile from '../Containers/Profile'
 import Icon from 'react-native-vector-icons/FontAwesome'
+import Colors from '../Themes/Colors'
 
 const SCREEN_ICON = {
   PlanTrip: 'map-marker',
@@ -30,8 +31,10 @@ const PrimaryNav = createBottomTabNavigator({
   backBehavior: 'initialRoute',
   initialRouteName: 'PlanTrip',
   tabBarOptions: {
-    activeTintColor: 'steelblue',
-    inactiveTintColor: 'gray',
+    activeTintColor: Colors.yellowAccent,
+    inactiveTintColor: Colors.background,
+    activeBackgroundColor: Colors.primary,
+    inactiveBackgroundColor: Colors.primary,
   }
 })
 

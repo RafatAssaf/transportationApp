@@ -6,12 +6,14 @@ import API from '../Services/Api'
 const {TransportationPlanningAPI} = API
 
 export function * planTrip (api, action) {
-  const { fromPlace, toPlace } = action
+  const { fromPlace, toPlace, locate } = action
+
   const response = yield call(api.planTrip, {fromPlace, toPlace})
 
-  if (response.ok) {
+  if (response.ok && !response.data.error) {
+    console.log(response)
     yield put(TripActions.tripSuccess(response.data))
-    
+
     //extract polylines
     let polylines = response.data.plan.itineraries.map(itinerary => {
       return itinerary.legs.map(leg => {
@@ -19,8 +21,8 @@ export function * planTrip (api, action) {
       })
     })
 
-    //decode polylines
-    yield put(PlolylinesActions.polylinesRequest(polylines))
+    //decode polylines & locate the map to new data
+    yield put(PlolylinesActions.polylinesRequest(polylines, locate))
 
   } else {
     yield put(TripActions.tripFailure())

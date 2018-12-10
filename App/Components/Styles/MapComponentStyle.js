@@ -1,8 +1,12 @@
 import { StyleSheet } from 'react-native'
+import {Metrics, Colors} from '../../Themes'
 
 export default StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    borderTopRightRadius: Metrics.containerBorderRadius,
+    borderTopLeftRadius: Metrics.containerBorderRadius,
+    overflow: 'hidden'
   },
   loadingSheet: {
     position: 'absolute',

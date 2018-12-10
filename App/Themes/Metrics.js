@@ -1,9 +1,13 @@
-import {Dimensions, Platform} from 'react-native'
-
+import {Dimensions, Platform, StatusBar} from 'react-native'
+StatusBar.currentHeight
 const { width, height } = Dimensions.get('window')
 
-// Used via Metrics.baseMargin
+// Used via Metrics.baseMargins
 const metrics = {
+  statusbarHeight: (Platform.OS === 'ios') ? 0 : StatusBar.currentHeight,
+  containerBorderRadius: 20,
+  iconSize: 22,
+  
   marginHorizontal: 10,
   marginVertical: 10,
   section: 25,

@@ -16,10 +16,10 @@ export default class MapMarker extends Component {
   }
 
   render () {
-    const {coords, title} = this.props
+    const {coords, color} = this.props
     return <Marker
       coordinate={coords}
-      // title
+      pinColor={color}
     />
   }
 }

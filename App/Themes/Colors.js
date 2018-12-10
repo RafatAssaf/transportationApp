@@ -4,7 +4,7 @@ const colors = {
   secondryText: '#9B9B9B',
   yellowAccent: '#F9AA33',
   blueAccent: '#5B9EEA',
-  white: '#fff',
+  white: '#ffffff',
 
   clear: 'rgba(0,0,0,0)',
   facebook: '#3b5998',

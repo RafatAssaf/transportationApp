@@ -18,76 +18,69 @@ export default class MapComponent extends Component {
   // // Prop type warnings
   static propTypes = {
     isLoading: PropTypes.bool.isRequired,
-    areas: PropTypes.array,
+    markers: PropTypes.array,
     polylines: PropTypes.array,
   }
   
   // Defaults for props
   static defaultProps = {
-    areas: [],
+    markers: [],
     polylines: [],
     isLoading: false
   }
 
   renderMarkers = () => {
-    const {areas} = this.props
-    if(areas) {
-      return areas.map( area => <MapMarker 
+    const {markers} = this.props
+    if(markers) {
+      return markers.map( (marker, i) => <MapMarker 
+        key={'marker'+i}
         coords={{
-          latitude: parseFloat(area.center.latitude), 
-          longitude: parseFloat(area.center.longitude)
+          latitude: parseFloat(marker.latitude), 
+          longitude: parseFloat(marker.longitude)
         }}
+        color={marker.color}
       /> )
     }
   }
 
   renderPolylines = () => {
     const {polylines} = this.props
-    return polylines.map((itinerary, i) => {
-      return itinerary.map((leg, j) => <Polyline
-        key={i + '-' + j}
-        coordinates={leg}
-        strokeWidth={5}
-        strokeColor={PolylineColors['polyline' + i]}
-        onPress={() => alert('view details')}
-      /> )
-    }).flat()
+    if(polylines.length > 0) {
+      return polylines.map((itinerary, i) => {
+        return itinerary.map((leg, j) => <Polyline
+          key={i + '-' + j}
+          coordinates={leg}
+          strokeWidth={5}
+          strokeColor={PolylineColors['polyline' + i]}
+          onPress={() => alert('view details')}
+        /> )
+      }).flat()
+    } else {
+      return []
+    }
   }
 
   render () {
-    const {isLoading, areas, polylines} = this.props
-
+    const {isLoading, setRef} = this.props
     return (
       <View style={styles.container}>
         <MapView
           ref={r => this.mapRef = r}
-          onLayout={() => {
-            //find edge points
-            let points = polylines.flat().flat()
-            let maxLat = points.reduce((max, point) => point.latitude > max.latitude? point: max, points[0])
-            let minLat = points.reduce((min, point) => point.latitude < min.latitude? point: min, points[0])
-            let maxLon = points.reduce((max, point) => point.longitude > max.longitude? point: max, points[0])
-            let minLon = points.reduce((min, point) => point.longitude < min.longitude? point: min, points[0])
-
-            //fit the map to the polylines
-            this.mapRef.fitToCoordinates([
-              maxLat, maxLon, minLat, minLon
-            ], { animated: true })
-          }}
-
+          onLayout={ () => setRef(this.mapRef) } // give controll to the container
           showsUserLocation
           loadingEnabled
           loadingIndicatorColor='#0003'
           loadingBackgroundColor='#fff'
+          maxZoomLevel={15}
           initialRegion={{
             latitude: 31.9454,
             longitude: 35.9284,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}
-          style={{
+          style={[{
             ...StyleSheet.absoluteFillObject,
-          }}
+          }, styles.mapView]}
         >
           {this.renderPolylines()}
           {this.renderMarkers()}
