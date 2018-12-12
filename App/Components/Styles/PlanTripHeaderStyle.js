@@ -10,18 +10,18 @@ export default StyleSheet.create({
     // marginTop: Metrics.statusbarHeight,
     paddingBottom: 0,
     backgroundColor: Colors.primary,
-    paddingHorizontal: 10,
-    alignItems: 'center'
+    // paddingHorizontal: 10,
+    alignItems: 'center',
   },
   inputsContainer: {
-    flex: 1,
+    flex: 1
   },
   singleInputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   input: {
-    width: '95%',
+    width: '100%',
     backgroundColor: Colors.white,
     marginBottom: 5,
     height: 40,
@@ -44,5 +44,11 @@ export default StyleSheet.create({
     marginLeft: -35,
     marginBottom: 5,
     zIndex: 10
+  },
+  dotsContainer: {
+    // backgroundColor: 'skyblue', 
+    height: '100%',
+    padding: 10,
+    paddingVertical: 15
   }
 })

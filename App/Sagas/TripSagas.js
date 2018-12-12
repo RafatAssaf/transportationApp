@@ -9,7 +9,6 @@ import planTripReponse from '../Fixtures/planTrip'
 
 import API from '../Services/Api'
 const {TransportationPlanningAPI} = API
-const {TransportationTrackingAPI} = API
 
 export function * planTrip (api, action) {
   const { fromPlace, toPlace, locate } = action

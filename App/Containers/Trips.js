@@ -16,6 +16,7 @@ class Trips extends Component {
     return (
       <ScrollView style={styles.container}>
         <SimpleHeader title="My Trips"/>
+        
       </ScrollView>
     )
   }

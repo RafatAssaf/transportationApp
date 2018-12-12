@@ -12,12 +12,12 @@ export default StyleSheet.create({
     paddingTop: 10
   },
   header: {
-    height: 50,
+    height: 30,
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 15
+    paddingHorizontal: 15,
   },
   headerText: {
     fontSize: 24, 
@@ -36,7 +36,9 @@ export default StyleSheet.create({
     paddingHorizontal: 15
   },
   input: {
-  
+    width: '100%',
+    paddingHorizontal: 10,
+    marginHorizontal: 10
   },
   inputIcon: {
     position: 'absolute',

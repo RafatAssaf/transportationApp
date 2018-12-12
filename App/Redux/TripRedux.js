@@ -28,7 +28,8 @@ export const INITIAL_STATE = Immutable({
 
 export const TripSelectors = {
   getTrip: state => state.trip.trip,
-  getIsLoading: state => state.trip.fetching
+  getIsLoading: state => state.trip.fetching,
+  getFromToPoints: state => state.trip.fromTo
 }
 
 /* ------------- Reducers ------------- */

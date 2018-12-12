@@ -23,18 +23,29 @@ class Areas extends Component {
     }
   }
 
+  filterAreas = (query) => {
+    const {areas} = this.props
+    // console.log(areas)
+    return query
+    ? areas.filter(area => 
+      ((area.name + area.description).toLowerCase().indexOf( `${query.toLowerCase()}` )) > 0).slice(0, 25)
+    : areas.slice(0, 25)
+  } 
+
   render () {
-    let {areas} = this.props
+    const {planTrip, userLocation} = this.props
+    const {query} = this.state
     return (
       <View style={styles.container}>
         <SimpleHeader title="Areas"/>
         <MapAreas
-          areas={areas}
+          areas={ this.filterAreas(query) }
           fullScreen
-          onChangeText={point => {
-            console.log(point)
+          onChangeText={q => {
+            this.setState({ query: q })
           }}
-          set={() => {
+          set={(point) => {
+            // planTrip( userLocation, point )
             this.props.navigation.navigate('Plan Trip')
           }}
         />
@@ -47,7 +58,8 @@ const mapStateToProps = (state) => {
   return {
     areas:                AreasSelectors.getAreas(state),
     searchResults:        SearchSelectors.getSearchResults(state),
-    reverseGeoCodeResult: SearchSelectors.getReverseGeoCodeResult(state)
+    reverseGeoCodeResult: SearchSelectors.getReverseGeoCodeResult(state),
+    userLocation:         TrackingSelectors.getUserLocation(state)
   }
 }
 

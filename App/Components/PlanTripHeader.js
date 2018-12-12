@@ -4,6 +4,7 @@ import { View, Text, TextInput, Image } from 'react-native'
 import styles from './Styles/PlanTripHeaderStyle'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import {Colors} from '../Themes'
+import {Picker} from 'native-base'
 
 export default class PlanTripHeader extends Component {
  
@@ -16,7 +17,7 @@ export default class PlanTripHeader extends Component {
   }
 
   render () {
-    const { onFocus, onBlur, selectUserLocation, fromValue, toValue, setFrom, setTo } = this.props
+    const { onFocus, onBlur, selectUserLocation, fromValue, toValue, setFrom, setTo, onMenuPress } = this.props
     return (
       <View style={styles.container}>
         <Image source={require('../Images/fromTo.png')} style={styles.fromToImage} resizeMode='contain'/>
@@ -45,6 +46,14 @@ export default class PlanTripHeader extends Component {
             placeholder="To"
             onFocus={() => onFocus('to')}
             onBlur={onBlur}
+          />
+        </View>
+        <View style={styles.dotsContainer}>
+          <Icon 
+            size={22} 
+            color={Colors.white} 
+            name='dots-vertical' 
+            onPress={onMenuPress}
           />
         </View>
       </View>

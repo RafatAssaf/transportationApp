@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, TextInput, StyleSheet, TouchableOpacity, Keyboard } from 'react-native'
+import { View, TextInput, StyleSheet, TouchableOpacity, Keyboard, Alert } from 'react-native'
 import { connect } from 'react-redux'
 import AreasActions,  {AreasSelectors}        from '../Redux/AreasRedux'
 import SearchActions, {SearchSelectors}       from '../Redux/SearchRedux'
@@ -7,7 +7,6 @@ import PolylinesActions, {PolylinesSelectors} from '../Redux/PolylinesRedux'
 import TrackingActions, {TrackingSelectors}   from '../Redux/TrackingRedux'
 import TripActions, {TripSelectors}           from '../Redux/TripRedux'
 import Permissions                            from 'react-native-permissions'
-import R                                      from 'ramda'
 // import {Colors}                               from '../Themes'
 
 //Components
@@ -16,6 +15,8 @@ import MapComponent   from '../Components/MapComponent'
 import MapAreas       from '../Components/MapAreas'
 import MapActionSheet from '../Components/MapActionSheet'
 import TripDetails    from '../Components/TripDetails'
+import Popup          from '../Components/Popup'
+import FeedbackInput  from '../Components/FeedbackInput'
 
 // Styles
 import styles from './Styles/MapStyle'
@@ -38,10 +39,19 @@ class PlanTrip extends Component {
       fromOrTo: 'from',
 
       showActionSheet: false,
-      isTripDetailsVisible: false
+      isTripDetailsVisible: false,
+      showMenuPopup: false,
+      showLanguagePopup: false,
+      showFeedbackPopup: false,
+
+      feedbackText: ''
     }
 
     this.MY_LOCATION_TEXT = 'My Current Location'
+  }
+
+  componentWillReceiveProps(prevProps) {
+
   }
 
   componentDidMount() {
@@ -63,10 +73,11 @@ class PlanTrip extends Component {
   setLocationWatcher() {
     navigator.geolocation.watchPosition(
       userLocation => {
-        this.setState({ userLocation : {
+        let location = {
           lat: userLocation.coords.latitude, 
           lon: userLocation.coords.longitude
-        } })
+        }
+        this.setState({ userLocation : location })
       },
       err => {console.log(err)}
     )
@@ -94,13 +105,15 @@ class PlanTrip extends Component {
     planTrip(
       {lat: fromPoint.lat, lon: fromPoint.lon},
       {lat: toPoint.lat, lon: toPoint.lon},
-      (edgePoints) => {
-        this.setState({ showActionSheet: true }, () => {
-          this.mapRef.fitToCoordinates(edgePoints)
-          this.trackBusses()
-        })
-      }
+      (edgePoints) => this.viewTrip(edgePoints)
     )
+  }
+
+  viewTrip = (edgePoints) => {
+    this.setState({ showActionSheet: true }, () => {
+      this.mapRef.fitToCoordinates(edgePoints)
+      this.trackBusses()
+    })
   }
 
   cancelTrip = () => {
@@ -114,14 +127,28 @@ class PlanTrip extends Component {
   }
 
   render () {
-    const {tracks, isTripLoading, polylines, areas, trip, edgePoints, cancelTrip} = this.props
-    const {showAreas, userLocation, fromName, toName, fromPoint, toPoint, fromOrTo, showActionSheet, isTripDetailsVisible} = this.state
+    const {tracks, isTripLoading, polylines, areas, trip, edgePoints} = this.props
+    const {
+      showAreas, 
+      userLocation, 
+      fromName, 
+      toName, 
+      fromPoint, 
+      fromOrTo, 
+      showActionSheet, 
+      isTripDetailsVisible, 
+      showMenuPopup, 
+      showLanguagePopup,
+      showFeedbackPopup,
+      feedbackText
+    } = this.state
 
     return (
       <View style={styles.container}>
 
         <PlanTripHeader 
           onFocus={(fromOrTo) => this.setState({ showAreas: true, fromOrTo, showActionSheet: false })}
+          onMenuPress={() => this.setState({ showMenuPopup: true })}
 
           fromValue={fromName}
           toValue={toName}
@@ -206,6 +233,47 @@ class PlanTrip extends Component {
           trip={trip || {}}
         />
 
+        <Popup
+          isVisible={showMenuPopup}
+          title="Settings"
+          close={() => this.setState({ showMenuPopup: false })}
+          options={[
+            {title: "Language", onPress: () => this.setState({ showMenuPopup: false, showLanguagePopup: true }), mode: 'neutral'},  
+            {title: "Contact Us", onPress: () => this.setState({ showMenuPopup: false, showFeedbackPopup: true }), mode: 'neutral'},  
+          ]}
+        />
+
+        <Popup
+          isVisible={showLanguagePopup}
+          title="Language"
+          subtitle="Choose your preferred language"
+          close={() => this.setState({ showLanguagePopup: false })}
+          options={[
+            {title: "العربية", onPress: () => alert('Arabic'), mode: 'neutral'},  
+            {title: "English", onPress: () => alert('English'), mode: 'neutral'},  
+          ]}
+        />
+
+        <Popup
+          isVisible={showFeedbackPopup}
+          title="Feedback"
+          subtitle="Your opinions and suggestions are highly valued"
+          close={() => this.setState({ showFeedbackPopup: false, feedbackText: '' })}
+          component={<FeedbackInput 
+              value={feedbackText}
+              onChangeText={text => this.setState({ feedbackText: text })}
+            />}
+          options={[
+            {title: "Send", onPress: () => {
+              if(feedbackText.length) {
+                Alert.alert("Thank You!", "You're message will be heard")
+                this.setState({ showFeedbackPopup: false })
+              }
+            }, mode: 'neutral'},  
+            {title: "Cancel", onPress: () => this.setState({ showFeedbackPopup: false }), mode: 'neutral'},  
+          ]}
+        />
+
         {/* to trigger test events */}
         {/* <TouchableOpacity
           style={{
@@ -218,7 +286,7 @@ class PlanTrip extends Component {
             justifyContent: 'center', alignItems: 'center'
           }}
           onPress={() => {
-            console.log(tracks)
+            console.log(this.props.fromTo)
           }}
         /> */}
 
@@ -239,7 +307,6 @@ const mapStateToProps = (state) => {
     polylines:            PolylinesSelectors.getItineraries(state),
     edgePoints:           PolylinesSelectors.getEdgePoints(state),
 
-    //
     searchResults:        SearchSelectors.getSearchResults(state),
     reverseGeoCodeResult: SearchSelectors.getReverseGeoCodeResult(state),
 

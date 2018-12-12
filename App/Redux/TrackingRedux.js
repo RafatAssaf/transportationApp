@@ -12,7 +12,10 @@ const { Types, Creators } = createActions({
   //track a single bus
   trackBusRequest: ['busNum'],
   trackBusSuccess: ['track'],
-  trackBusFailure: null
+  trackBusFailure: null, 
+
+  //tracking the user
+  userLocation: ['location']
 })
 
 export const TrackingTypes = Types
@@ -29,14 +32,17 @@ export const INITIAL_STATE = Immutable({
   busNum: null,
   fetchingBusTrack: false,
   busTrack: null,
-  busTrackError: null
+  busTrackError: null,
+  
+  userLocation: null
 })
 
 /* ------------- Selectors ------------- */
 
 export const TrackingSelectors = {
   getRouteTracks: state => state.tracking.routeTracks,
-  getBusTrack: state => state.tracking.busTrack
+  getBusTrack: state => state.tracking.busTrack,
+  getUserLocation: state => state.tracking.userLocation
 }
 
 /* ------------- Reducers ------------- */
@@ -71,6 +77,10 @@ export const busTrackSuccess = (state, action) => {
 export const busTrackFailure = state =>
   state.merge({ fetchingBusTrack: false, busTrackError: true, busTrack: null })
 
+
+export const userLocation = (state, { location }) => 
+  state.merge({ userLocation: location })
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -80,5 +90,7 @@ export const reducer = createReducer(INITIAL_STATE, {
 
   [Types.TRACK_BUS_REQUEST]: busTrackRequest,
   [Types.TRACK_BUS_SUCCESS]: busTrackSuccess,
-  [Types.TRACK_BUS_FAILURE]: busTrackFailure
+  [Types.TRACK_BUS_FAILURE]: busTrackFailure,
+
+  [Types.USER_LOCATION]: userLocation
 })
