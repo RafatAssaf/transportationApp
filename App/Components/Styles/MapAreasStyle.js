@@ -8,7 +8,8 @@ export default StyleSheet.create({
     borderTopLeftRadius: Metrics.containerBorderRadius,
     overflow: 'hidden',
     backgroundColor: Colors.white,
-    paddingHorizontal: 5
+    paddingHorizontal: 5,
+    paddingTop: 10
   },
   header: {
     height: 50,
@@ -26,5 +27,19 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     position: 'relative'
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderColor: Colors.text,
+    alignItems: 'center',
+    paddingHorizontal: 15
+  },
+  input: {
+  
+  },
+  inputIcon: {
+    position: 'absolute',
+    left: 0
   }
 })

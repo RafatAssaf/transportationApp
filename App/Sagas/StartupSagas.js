@@ -8,6 +8,10 @@ function * startup () {
   //clear any trips in the store
   yield put(TripActions.tripCancel())
 
+
+  //get trip for testing
+  // yield put(TripActions.tripRequest())
+
   //do things that should be done on startup
   yield put(AreasActions.areasRequest())
 

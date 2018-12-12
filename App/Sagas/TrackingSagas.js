@@ -4,15 +4,20 @@ import API from '../Services/Api'
 const {TransportationTrackingAPI} = API
 
 function * getRouteTracks (api, action) {
-  const { route } = action
-  const response = yield call(api.trackRoute, route)
+  // const { routes } = action
+  const routes = ['ju', 'abunsair']
 
-  if (response.ok) {
-    console.log(response)
-    yield put(TrackingActions.trackRouteSuccess(response.data))
-  } else {
-    yield put(TrackingActions.trackRouteFailure())
+  let response = {data: []}
+  for(let i in routes) {
+    const track = yield call(api.trackRoute, routes[i])
+    if(true) {
+      response.data = response.data.concat(track.data)
+    }
   }
+
+  console.log(response.data)
+
+  yield put(TrackingActions.trackRouteSuccess(response.data))
 }
 
 function * getBusTrack (api, action) {

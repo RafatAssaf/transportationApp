@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, TextInput, StyleSheet } from 'react-native'
+import { View, TextInput, StyleSheet, Alert } from 'react-native'
 import { connect } from 'react-redux'
 import AreasActions,  {AreasSelectors}        from '../Redux/AreasRedux'
 import SearchActions, {SearchSelectors}       from '../Redux/SearchRedux'
@@ -7,7 +7,10 @@ import PolylinesActions, {PolylinesSelectors} from '../Redux/PolylinesRedux'
 import TrackingActions, {TrackingSelectors}   from '../Redux/TrackingRedux'
 import TripActions, {TripSelectors}           from '../Redux/TripRedux'
 
-import SimpleButton from '../Components/SimpleButton'
+import SimpleButton   from '../Components/SimpleButton'
+import MapAreas       from '../Components/MapAreas'
+import SimpleHeader   from '../Components/SimpleHeader'
+
 
 // Styles
 import styles from './Styles/AreasStyle'
@@ -16,22 +19,25 @@ class Areas extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      areas: [],
       query: ''
     }
   }
 
   render () {
-    let {getAreas, search, reverseGeoCode, decodePolyline, getBusTrack, getRouteTracks, planTrip, userCoords} = this.props
+    let {areas} = this.props
     return (
       <View style={styles.container}>
-        <SimpleButton title='Fetch Areas'             onPress={getAreas}/>
-        <SimpleButton title='Search "Prince Hussien"' onPress={() => search('Prince Hussien')}/>
-        <SimpleButton title='Reverse GeoCode'         onPress={() => reverseGeoCode(31.964419799, 35.9584179)}/>
-        <SimpleButton title='Decode Polyline'         onPress={() => decodePolyline('o{abEyw}yEIuDfC?`@}BFaCz@kA?a@g@oCbDWfAGZONWEiB')}/>
-        <SimpleButton title='Get Bus Track'           onPress={() => getBusTrack('1059')}/>
-        <SimpleButton title='Get Route Tracks'        onPress={() => getRouteTracks('ju')}/>
-        <SimpleButton title='PlanTrip'        onPress={() => planTrip({lat: 31.9637032, lon: 35.8746904}, {lat: 32.0232583, lon: 35.8483421})}/>
+        <SimpleHeader title="Areas"/>
+        <MapAreas
+          areas={areas}
+          fullScreen
+          onChangeText={point => {
+            console.log(point)
+          }}
+          set={() => {
+            this.props.navigation.navigate('Plan Trip')
+          }}
+        />
       </View>
     )
   }

@@ -5,7 +5,7 @@ import Immutable from 'seamless-immutable'
 
 const { Types, Creators } = createActions({
   //track busses on a specific route
-  trackRouteRequest: ['route'],
+  trackRouteRequest: ['routes'],
   trackRouteSuccess: ['tracks'],
   trackRouteFailure: null,
 
@@ -21,13 +21,13 @@ export default Creators
 /* ------------- Initial State ------------- */
 
 export const INITIAL_STATE = Immutable({
-  route: null,
-  fetchingRouteTracks: null,
-  routeTracks: null,
+  routes: null,
+  fetchingRouteTracks: false,
+  routeTracks: [],
   routeTracksError: null,
 
   busNum: null,
-  fetchingBusTrack: null,
+  fetchingBusTrack: false,
   busTrack: null,
   busTrackError: null
 })
@@ -42,8 +42,8 @@ export const TrackingSelectors = {
 /* ------------- Reducers ------------- */
 
 // request the data from an api
-export const routeTracksRequest = (state, { route }) =>
-  state.merge({ fetchingRouteTracks: true, route, routeTracks: null })
+export const routeTracksRequest = (state, { routes }) =>
+  state.merge({ fetchingRouteTracks: true, routeTracks: null })
 
 // successful api lookup
 export const routeTracksSuccess = (state, action) => {

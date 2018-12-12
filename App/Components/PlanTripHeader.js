@@ -24,6 +24,7 @@ export default class PlanTripHeader extends Component {
           <View style={styles.singleInputContainer}>
             <TextInput 
               value={fromValue}
+              onChangeText={newText => setFrom(newText)}
               style={[styles.input, styles.fromInput]} 
               placeholder="From"
               onFocus={() => onFocus('from')}
@@ -39,6 +40,7 @@ export default class PlanTripHeader extends Component {
           </View>
           <TextInput 
             value={toValue}
+            onChangeText={newText => setTo(newText)}
             style={[styles.input, styles.toInput]} 
             placeholder="To"
             onFocus={() => onFocus('to')}

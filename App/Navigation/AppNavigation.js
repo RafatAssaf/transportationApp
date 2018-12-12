@@ -8,14 +8,14 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import Colors from '../Themes/Colors'
 
 const SCREEN_ICON = {
-  PlanTrip: 'map-marker',
+  'Plan Trip': 'map-marker',
   Areas: 'map',
   Trips: 'bus',
   Profile: 'user'
 }
 
 const PrimaryNav = createBottomTabNavigator({
-  PlanTrip: {screen: PlanTrip},
+  'Plan Trip': {screen: PlanTrip},
   Areas: {screen: Areas},
   Trips: {screen: Trips},
   Profile: {screen: Profile},
@@ -29,7 +29,7 @@ const PrimaryNav = createBottomTabNavigator({
   tabBarPosition: 'bottom',
   animationEnabled: true,
   backBehavior: 'initialRoute',
-  initialRouteName: 'PlanTrip',
+  initialRouteName: 'Plan Trip',
   tabBarOptions: {
     activeTintColor: Colors.yellowAccent,
     inactiveTintColor: Colors.background,

@@ -25,7 +25,8 @@ export default StyleSheet.create({
     backgroundColor: Colors.white,
     marginBottom: 5,
     height: 40,
-    paddingHorizontal: 15
+    paddingLeft: 15,
+    paddingRight: 50
   },
   fromInput: {
     borderTopRightRadius: 10,

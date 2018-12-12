@@ -7,13 +7,15 @@ import PolylinesActions, {PolylinesSelectors} from '../Redux/PolylinesRedux'
 import TrackingActions, {TrackingSelectors}   from '../Redux/TrackingRedux'
 import TripActions, {TripSelectors}           from '../Redux/TripRedux'
 import Permissions                            from 'react-native-permissions'
-import {Colors}                               from '../Themes'
+import R                                      from 'ramda'
+// import {Colors}                               from '../Themes'
 
 //Components
 import PlanTripHeader from '../Components/PlanTripHeader'
 import MapComponent   from '../Components/MapComponent'
 import MapAreas       from '../Components/MapAreas'
 import MapActionSheet from '../Components/MapActionSheet'
+import TripDetails    from '../Components/TripDetails'
 
 // Styles
 import styles from './Styles/MapStyle'
@@ -35,7 +37,8 @@ class PlanTrip extends Component {
       // to decide the field being modified
       fromOrTo: 'from',
 
-      showActionSheet: false
+      showActionSheet: false,
+      isTripDetailsVisible: false
     }
 
     this.MY_LOCATION_TEXT = 'My Current Location'
@@ -69,6 +72,22 @@ class PlanTrip extends Component {
     )
   }
 
+  trackBusses() {
+    setInterval(() => {
+      // for real app, pass in trip routes (create a selector for it)
+      this.props.getRouteTracks() 
+    }, 60000) //update every second
+  }
+
+  filterAreas = (query) => {
+    const {areas} = this.props
+    // console.log(areas)
+    return query
+    ? areas.filter(area => 
+      ((area.name + area.description).toLowerCase().indexOf( `${query.toLowerCase()}` )) > 0).slice(0, 25)
+    : areas.slice(0, 25)
+  } 
+
   planTrip = () => {
     const {fromPoint, toPoint} = this.state
     const {planTrip} = this.props
@@ -78,6 +97,7 @@ class PlanTrip extends Component {
       (edgePoints) => {
         this.setState({ showActionSheet: true }, () => {
           this.mapRef.fitToCoordinates(edgePoints)
+          this.trackBusses()
         })
       }
     )
@@ -90,11 +110,12 @@ class PlanTrip extends Component {
 
   componentWillUnmount() {
     navigator.geolocation.clearWatch()
+    clearInterval() // stop tracking busses
   }
 
   render () {
-    const {areAreasLoading, isTripLoading, polylines, areas, planTrip, edgePoints, cancelTrip} = this.props
-    const {showAreas, userLocation, fromName, toName, fromPoint, toPoint, fromOrTo, showActionSheet} = this.state
+    const {tracks, isTripLoading, polylines, areas, trip, edgePoints, cancelTrip} = this.props
+    const {showAreas, userLocation, fromName, toName, fromPoint, toPoint, fromOrTo, showActionSheet, isTripDetailsVisible} = this.state
 
     return (
       <View style={styles.container}>
@@ -105,7 +126,7 @@ class PlanTrip extends Component {
           fromValue={fromName}
           toValue={toName}
           setFrom={(val) => this.setState({ fromName: val })}
-          // setto={(val) => this.setState({ toName: val })}
+          setTo={(val) => this.setState({ toName: val })}
 
           selectUserLocation={() => {
             if(userLocation) { //if the location is fetched
@@ -130,7 +151,12 @@ class PlanTrip extends Component {
 
         {showAreas
           ? <MapAreas
-            areas={areas}
+            areas={
+              this.filterAreas(fromOrTo === 'from'
+                ? fromName
+                : toName
+              ).slice(0, 25)
+            }
             close={() => {
               Keyboard.dismiss()
               this.setState({ showAreas: false })
@@ -152,19 +178,13 @@ class PlanTrip extends Component {
                 if(fromOrTo === 'to' && !fromPoint) {
                   this.setState({ fromPoint: this.state.userLocation, fromName: this.MY_LOCATION_TEXT})
                 }
-
               })
             }}
           />
           : <MapComponent 
             isLoading={isTripLoading}
             polylines={polylines}
-            markers={(fromPoint && toPoint) 
-              ? [
-                {latitude: fromPoint.lat, longitude: fromPoint.lon},
-                {latitude: toPoint.lat, longitude: toPoint.lon},
-              ] : []
-            }
+            markers={tracks}
             setRef={r => this.mapRef = r} // to control MapComponent from here
           />
         }
@@ -177,11 +197,17 @@ class PlanTrip extends Component {
             this.setState({ showActionSheet: false })
             this.cancelTrip()
           }}
-          showDetails={() => alert('showDetails')}
+          showDetails={() => this.setState({ isTripDetailsVisible: true })}
         /> }       
 
+        <TripDetails
+          isVisible={isTripDetailsVisible}
+          close={() => this.setState({ isTripDetailsVisible: false })}
+          trip={trip || {}}
+        />
+
         {/* to trigger test events */}
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={{
             width: 40,
             height: 40,
@@ -192,9 +218,9 @@ class PlanTrip extends Component {
             justifyContent: 'center', alignItems: 'center'
           }}
           onPress={() => {
-            console.log(fromOrTo, fromPoint, toPoint)
+            console.log(tracks)
           }}
-        />
+        /> */}
 
       </View>
     )
@@ -209,12 +235,15 @@ const mapStateToProps = (state) => {
 
     //polylines
     isTripLoading:        TripSelectors.getIsLoading(state),
+    trip:                 TripSelectors.getTrip(state),
     polylines:            PolylinesSelectors.getItineraries(state),
     edgePoints:           PolylinesSelectors.getEdgePoints(state),
 
     //
     searchResults:        SearchSelectors.getSearchResults(state),
     reverseGeoCodeResult: SearchSelectors.getReverseGeoCodeResult(state),
+
+    tracks:               TrackingSelectors.getRouteTracks(state)
   }
 }
 
@@ -225,9 +254,9 @@ const mapDispatchToProps = (dispatch) => {
     reverseGeoCode: (lat, lon)  => dispatch(SearchActions.reverseGeoCode(lat, lon)),
     decodePolyline: (polyline)  => dispatch(PolylinesActions.polylinesRequest(polyline)),
     getBusTrack   : (busNum)    => dispatch(TrackingActions.trackBusRequest(busNum)),
-    getRouteTracks: (route)     => dispatch(TrackingActions.trackRouteRequest(route)),
+    getRouteTracks: (routes)     => dispatch(TrackingActions.trackRouteRequest(routes)),
     planTrip      : (from, to, cb)  => dispatch(TripActions.tripRequest(from, to, cb)),
-    cancelTrip    : ()          => dispatch(TripActions.tripCancel())
+    cancelTrip    : ()          => dispatch(TripActions.tripCancel()),
   }
 }
 

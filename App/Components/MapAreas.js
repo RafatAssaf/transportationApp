@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
-import { View, Text, ScrollView } from 'react-native'
+import { View, Text, ScrollView, TextInput } from 'react-native'
 import styles from './Styles/MapAreasStyle'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import {Colors} from '../Themes'
@@ -44,14 +44,24 @@ export default class MapAreas extends Component {
   }
 
   render () {
-    const {areas, close} = this.props
+    const {areas, close, fullScreen, onChangeText} = this.props
 
     return (
       <View style={styles.container}>
-        <View style={styles.header}>
+        {!fullScreen 
+        ? <View style={styles.header}>
           <Text style={styles.headerText}>Destinations</Text>
           <Icon name={'clear'} size={22} color={Colors.blueAccent} onPress={close}/>
         </View>
+        : 
+        <View style={styles.inputContainer}>
+          <Icon name={'search'} size={22} color={Colors.blueAccent} onPress={close}/>
+          <TextInput
+            style={styles.input}
+            placeholder='Search Areas.. Try "Khalda"'
+            onChangeText={text => onChangeText(text)}
+          />
+        </View>}
         <ScrollView style={styles.container}>
           {this.splitIntoTwos(areas.slice(0, 20)).map((row, i) => this.renderRow(row, i))}
         </ScrollView>

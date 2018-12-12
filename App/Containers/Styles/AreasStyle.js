@@ -5,6 +5,5 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.primary,
-    paddingTop: Metrics.statusbarHeight
   }
 })

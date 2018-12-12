@@ -3,7 +3,8 @@ import {Colors} from '../../Themes'
 
 export default StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
+    width: '45%',
     height: 90,
     padding: 10,
     margin: 5, 

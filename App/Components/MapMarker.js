@@ -20,6 +20,7 @@ export default class MapMarker extends Component {
     return <Marker
       coordinate={coords}
       pinColor={color}
+      image={require('../Images/busMarker.png')}
     />
   }
 }
