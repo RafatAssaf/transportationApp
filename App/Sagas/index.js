@@ -8,6 +8,7 @@ import SearchHooks        from './SearchSagas'
 import PolylinesHooks     from './PolylinesSagas'
 import TrackingHooks      from './TrackingSagas'
 import TripHooks          from './TripSagas'
+import SettingsHooks      from './SettingsSagas'
 
 /* ------------- Combine all hooks from types to sagas ------------- */
 
@@ -20,5 +21,7 @@ export default function * root () {
     ...PolylinesHooks,
     ...TrackingHooks,
     ...TripHooks
+    ,
+    ...SettingsHooks
   ])
 }

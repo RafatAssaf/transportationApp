@@ -36,7 +36,7 @@
     "react-native": "0.57.7",
     "react-native-config": "^0.10.0",
     "react-native-gesture-handler": "^1.0.9",
-    "react-native-languages": "^3.0.1",
+    "react-native-i18n": "^2.0.15",
     "react-native-maps": "^0.22.1",
     "react-native-permissions": "^1.1.1",
     "react-native-vector-icons": "4.3.0",

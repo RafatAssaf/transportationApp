@@ -4,6 +4,7 @@ import { View, Text, Modal, TouchableOpacity, Image } from 'react-native'
 import styles from './Styles/PopupStyle'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import {Colors, Metrics} from '../Themes'
+import {t} from '../I18n'
 
 export default class Popup extends Component {
   // // Prop type warnings
@@ -29,7 +30,6 @@ export default class Popup extends Component {
       <View>
         <Modal
           visible={isVisible}
-          animated
           animationType='fade'
           onRequestClose={close}
           transparent
@@ -45,7 +45,8 @@ export default class Popup extends Component {
               {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
               {component ? component : null}
 
-              {options.map(option => <TouchableOpacity 
+              {options.map((option, i) => <TouchableOpacity 
+                key={i}
                 style={styles.option}
                 onPress={option.onPress}
               >

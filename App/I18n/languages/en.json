@@ -1,8 +1,8 @@
 {
     "popup": {
-        "settings": "E3dadat",
-        "language": "Lo3'at",
-        "contactUS": "Contact Us",
+        "settings": "Settings",
+        "language": "Language",
+        "contactUs": "Contact Us",
         "chooseLanguage": "Choose your preferred language",
         "feedbackTitle": "Feedback",
         "feedbackSubtitle": "Your opinions and suggestions are highly valued",

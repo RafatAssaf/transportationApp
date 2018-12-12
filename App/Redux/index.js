@@ -12,7 +12,8 @@ export const reducers = combineReducers({
   search: require('./SearchRedux').reducer,
   polylines: require('./PolylinesRedux').reducer,
   tracking: require('./TrackingRedux').reducer,
-  trip: require('./TripRedux').reducer
+  trip: require('./TripRedux').reducer,
+  settings: require('./SettingsRedux').reducer
 })
 
 export default () => {

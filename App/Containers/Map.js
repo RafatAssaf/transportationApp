@@ -6,8 +6,10 @@ import SearchActions, {SearchSelectors}       from '../Redux/SearchRedux'
 import PolylinesActions, {PolylinesSelectors} from '../Redux/PolylinesRedux'
 import TrackingActions, {TrackingSelectors}   from '../Redux/TrackingRedux'
 import TripActions, {TripSelectors}           from '../Redux/TripRedux'
+import SettingsActions, {SettingsSelectors}   from '../Redux/SettingsRedux'
 import Permissions                            from 'react-native-permissions'
-// import {Colors}                               from '../Themes'
+import {t}                                    from '../I18n' 
+import I18n from 'react-native-i18n'
 
 //Components
 import PlanTripHeader from '../Components/PlanTripHeader'
@@ -127,7 +129,7 @@ class PlanTrip extends Component {
   }
 
   render () {
-    const {tracks, isTripLoading, polylines, areas, trip, edgePoints} = this.props
+    const {tracks, isTripLoading, polylines, areas, trip, changeLanguage, language} = this.props
     const {
       showAreas, 
       userLocation, 
@@ -235,47 +237,47 @@ class PlanTrip extends Component {
 
         <Popup
           isVisible={showMenuPopup}
-          title="Settings"
+          title={t('popup.settings')}
           close={() => this.setState({ showMenuPopup: false })}
           options={[
-            {title: "Language", onPress: () => this.setState({ showMenuPopup: false, showLanguagePopup: true }), mode: 'neutral'},  
-            {title: "Contact Us", onPress: () => this.setState({ showMenuPopup: false, showFeedbackPopup: true }), mode: 'neutral'},  
+            {title: t('popup.language'), onPress: () => this.setState({ showMenuPopup: false, showLanguagePopup: true }), mode: 'neutral'},  
+            {title: t('popup.contactUs'), onPress: () => this.setState({ showMenuPopup: false, showFeedbackPopup: true }), mode: 'neutral'},  
           ]}
         />
 
         <Popup
           isVisible={showLanguagePopup}
-          title="Language"
-          subtitle="Choose your preferred language"
+          title={t('popup.language')}
+          subtitle={t('popup.feedbackSubtitle')}
           close={() => this.setState({ showLanguagePopup: false })}
           options={[
-            {title: "العربية", onPress: () => alert('Arabic'), mode: 'neutral'},  
-            {title: "English", onPress: () => alert('English'), mode: 'neutral'},  
+            {title: "العربية", onPress: () => changeLanguage('ar'), mode: 'neutral'},  
+            {title: "English", onPress: () => changeLanguage('en'), mode: 'neutral'},  
           ]}
         />
 
         <Popup
           isVisible={showFeedbackPopup}
-          title="Feedback"
-          subtitle="Your opinions and suggestions are highly valued"
+          title={t('popup.feedbackTitle')}
+          subtitle={t('popup.feedbackSubtitle')}
           close={() => this.setState({ showFeedbackPopup: false, feedbackText: '' })}
           component={<FeedbackInput 
               value={feedbackText}
               onChangeText={text => this.setState({ feedbackText: text })}
             />}
           options={[
-            {title: "Send", onPress: () => {
+            {title: t('popup.send'), onPress: () => {
               if(feedbackText.length) {
-                Alert.alert("Thank You!", "You're message will be heard")
+                Alert.alert(t('popup.feedbackMessageTitle'), t('popup.feedbackMessageSubtitle'))
                 this.setState({ showFeedbackPopup: false })
               }
             }, mode: 'neutral'},  
-            {title: "Cancel", onPress: () => this.setState({ showFeedbackPopup: false }), mode: 'neutral'},  
+            {title: t('popup.cancel'), onPress: () => this.setState({ showFeedbackPopup: false }), mode: 'neutral'},  
           ]}
         />
 
         {/* to trigger test events */}
-        {/* <TouchableOpacity
+        <TouchableOpacity
           style={{
             width: 40,
             height: 40,
@@ -286,9 +288,9 @@ class PlanTrip extends Component {
             justifyContent: 'center', alignItems: 'center'
           }}
           onPress={() => {
-            console.log(this.props.fromTo)
+            console.log(t('popup.settings'))
           }}
-        /> */}
+        />
 
       </View>
     )
@@ -310,7 +312,8 @@ const mapStateToProps = (state) => {
     searchResults:        SearchSelectors.getSearchResults(state),
     reverseGeoCodeResult: SearchSelectors.getReverseGeoCodeResult(state),
 
-    tracks:               TrackingSelectors.getRouteTracks(state)
+    tracks:               TrackingSelectors.getRouteTracks(state),
+    language:             SettingsSelectors.getLanguage(state)
   }
 }
 
@@ -324,6 +327,7 @@ const mapDispatchToProps = (dispatch) => {
     getRouteTracks: (routes)     => dispatch(TrackingActions.trackRouteRequest(routes)),
     planTrip      : (from, to, cb)  => dispatch(TripActions.tripRequest(from, to, cb)),
     cancelTrip    : ()          => dispatch(TripActions.tripCancel()),
+    changeLanguage: (language)  => dispatch(SettingsActions.changeLanguage(language)) 
   }
 }
 
