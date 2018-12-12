@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity } from 'react-native'
 import styles from './Styles/MapActionSheetStyle'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import {Colors, Metrics} from '../Themes'
+import {t} from '../I18n'
 
 export default class MapActionSheet extends Component {
   // // Prop type warnings
@@ -29,18 +30,18 @@ export default class MapActionSheet extends Component {
 
         <View style={styles.directionsContainer}>
           <View style={styles.textContainer}>
-            <Text>{this.cropString(fromName, 18)}</Text>
-            <Text style={styles.directionText}>My Current Location</Text>
+            <Text>{t('actionsheet.from')}</Text>
+            <Text style={styles.directionText}>{this.cropString(fromName, 18)}</Text>
           </View>
           <Icon size={Metrics.iconSize} name='arrow-forward' color={Colors.secondryText}/>
           <View style={styles.textContainer}>
-            <Text>To</Text>
+            <Text>{t('actionsheet.to')}</Text>
             <Text style={styles.directionText}>{this.cropString(toName, 18)}</Text>
           </View>
         </View>
 
         <TouchableOpacity style={styles.buttonsContainer} onPress={showDetails}>
-          <Text style={styles.buttonText}>Show details</Text>
+          <Text style={styles.buttonText}>{t('actionsheet.showDetails')}</Text>
         </TouchableOpacity>
 
       </View>

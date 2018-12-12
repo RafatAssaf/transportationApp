@@ -14,7 +14,8 @@ export default Creators
 /* ------------- Initial State ------------- */
 
 export const INITIAL_STATE = Immutable({
-  language: I18n.locale.substr(0, 2)
+  // language: I18n.locale.substr(0, 2)
+  language: 'en'
 })
 
 /* ------------- Selectors ------------- */
@@ -27,7 +28,6 @@ export const SettingsSelectors = {
 
 // request the data from an api
 export const changeLanguage = (state, action) => {
-  console.log(action)
   return state.merge({ language: action.language })
 }
 

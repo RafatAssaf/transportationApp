@@ -1,15 +1,40 @@
 {
     "popup": {
-        "settings": "E3dadat",
-        "language": "Lo3'at",
-        "contactUS": "Contact Us",
-        "chooseLanguage": "Choose your preferred language",
-        "feedbackTitle": "Feedback",
-        "feedbackSubtitle": "Your opinions and suggestions are highly valued",
-        "feedbackPlaceholder": "Type here",
-        "feedbackMessageTitle": "Thank You!",
-        "feedbackMessageSubtitle": "You're message will be heard",
-        "send": "SEND",
-        "cancel": "CANCEL"
+        "settings": "إعدادات",
+        "language": "اللغة",
+        "contactUs": "تواصل معنا",
+        "chooseLanguage": "اختر اللغة التي تفضلها",
+        "feedbackTitle": "تواصل نعنا",
+        "feedbackSubtitle": "تواصلكم و اقتداحاتكم تهمنا و تسعدنا. نحن بخدمتكم",
+        "feedbackPlaceholder": "اكتب هنا",
+        "feedbackMessageTitle": "شكراً جزيلا",
+        "feedbackMessageSubtitle": "سيتم الاطلاع على رسالتك",
+        "send": "إرسال",
+        "cancel": "إلغاء"
+    },
+    "header": {
+        "fromPlaceholder": "نقطة الانطلاق",
+        "toPlaceholder": "الوجهة",
+        "myLocation": "موقعي الحالي"
+    },
+    "areas": {
+        "destinations": "الوجهات"
+    },
+    "actionsheet": {
+        "from": "من",
+        "to": "إلى",
+        "showDetails": "عرض التفاصيل"
+    },
+    "details": {
+        "walk": "مشي",
+        "bus": "حافلة",
+        "distance": "المسافة",
+        "duration": "المدة",
+        "from": "من",
+        "to": "إلي",
+        "title": "تفاصيل الرحلة",
+        "route1": "طريق ١", 
+        "route2": "طريق ٢", 
+        "route3": "طريق ٣"
     }
 }

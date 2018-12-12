@@ -11,5 +11,30 @@
         "feedbackMessageSubtitle": "You're message will be heard",
         "send": "SEND",
         "cancel": "CANCEL"
+    },
+    "header": {
+        "fromPlaceholder": "From",
+        "toPlaceholder": "To",
+        "myLocation": "My Current Location"
+    },
+    "areas": {
+        "destinations": "Destinations"
+    },
+    "actionsheet": {
+        "from": "From",
+        "to": "To",
+        "showDetails": "Show Details"
+    },
+    "details": {
+        "walk": "WALK",
+        "bus": "BUS",
+        "distance": "Distance",
+        "duration": "Duration",
+        "from": "From",
+        "to": "To",
+        "title": "Trip Details",
+        "route1": "Route 1", 
+        "route2": "Route 2", 
+        "route3": "Route 3"
     }
 }

@@ -12,7 +12,7 @@ export default StyleSheet.create({
     paddingTop: 10
   },
   header: {
-    height: 30,
+    height: 35,
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',

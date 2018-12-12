@@ -5,6 +5,8 @@ import { connect } from 'react-redux'
 import StartupActions from '../Redux/StartupRedux'
 import ReduxPersist from '../Config/ReduxPersist'
 import {Colors} from '../Themes'
+import {SettingsSelectors} from '../Redux/SettingsRedux'
+import I18n from 'react-native-i18n'
 
 // Styles
 import styles from './Styles/RootContainerStyles'
@@ -13,11 +15,7 @@ class RootContainer extends Component {
   
   componentDidMount () {
     this.props.startup() //fire startup action
-    console.disableYellowBox = true // disable yellow boxes during dev mode 
-  }
-
-  componentWillUnmount() {
-    //stop location watcher
+    console.disableYellowBox = true 
   }
 
   render () {
@@ -31,8 +29,14 @@ class RootContainer extends Component {
 }
 
 // wraps dispatch to create nicer functions to call within our component
+const mapStateToProps = (state) => {
+  return {
+    // language: SettingsSelectors.getLanguage(state)
+  }
+}
+
 const mapDispatchToProps = (dispatch) => ({
   startup: () => dispatch(StartupActions.startup())
 })
 
-export default connect(null, mapDispatchToProps)(RootContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(RootContainer)

@@ -32,7 +32,7 @@ export default StyleSheet.create({
   textContainer: {
     flex: 1,
     height: 50,
-    paddingLeft: 25,
+    paddingHorizontal: 15,
     justifyContent: 'center',
   },
   buttonText: {

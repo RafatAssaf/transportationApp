@@ -32,7 +32,8 @@ export default StyleSheet.create({
   title: {
     fontSize: 24,
     color: Colors.coal,
-    paddingBottom: 20
+    paddingBottom: 20,
+    marginRight: 30
   },
   subtitle: {
     fontSize: 16,

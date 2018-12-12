@@ -5,17 +5,10 @@ import styles from './Styles/PlanTripHeaderStyle'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import {Colors} from '../Themes'
 import {Picker} from 'native-base'
+import { t } from '../I18n';
 
 export default class PlanTripHeader extends Component {
  
-  static propTypes = {
-    title: PropTypes.string
-  }
- 
-  static defaultProps = {
-    title: 'From'
-  }
-
   render () {
     const { onFocus, onBlur, selectUserLocation, fromValue, toValue, setFrom, setTo, onMenuPress } = this.props
     return (
@@ -27,7 +20,7 @@ export default class PlanTripHeader extends Component {
               value={fromValue}
               onChangeText={newText => setFrom(newText)}
               style={[styles.input, styles.fromInput]} 
-              placeholder="From"
+              placeholder={t('header.fromPlaceholder')}
               onFocus={() => onFocus('from')}
               onBlur={onBlur}
             />
@@ -43,7 +36,7 @@ export default class PlanTripHeader extends Component {
             value={toValue}
             onChangeText={newText => setTo(newText)}
             style={[styles.input, styles.toInput]} 
-            placeholder="To"
+            placeholder={t('header.toPlaceholder')}
             onFocus={() => onFocus('to')}
             onBlur={onBlur}
           />

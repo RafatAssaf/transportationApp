@@ -5,6 +5,7 @@ import styles from './Styles/MapAreasStyle'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import {Colors} from '../Themes'
 import AreaItem from './AreaItem'
+import {t} from '../I18n'
 
 export default class MapAreas extends Component {
   // // Prop type warnings
@@ -50,11 +51,10 @@ export default class MapAreas extends Component {
       <View style={styles.container}>
         {!fullScreen 
         ? <View style={styles.header}>
-          <Text style={styles.headerText}>Destinations</Text>
+          <Text style={styles.headerText}>{t('areas.destinations')}</Text>
           <Icon name={'clear'} size={22} color={Colors.blueAccent} onPress={close}/>
         </View>
-        : 
-        <View style={styles.inputContainer}>
+        : <View style={styles.inputContainer}>
           <Icon name={'search'} size={22} color={Colors.blueAccent} onPress={close}/>
           <TextInput
             style={styles.input}

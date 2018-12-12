@@ -9,6 +9,7 @@ import TripActions, {TripSelectors}           from '../Redux/TripRedux'
 import SettingsActions, {SettingsSelectors}   from '../Redux/SettingsRedux'
 import Permissions                            from 'react-native-permissions'
 import {t}                                    from '../I18n' 
+import RNRestart                              from 'react-native-restart'
 import I18n from 'react-native-i18n'
 
 //Components
@@ -46,10 +47,12 @@ class PlanTrip extends Component {
       showLanguagePopup: false,
       showFeedbackPopup: false,
 
-      feedbackText: ''
+      feedbackText: '',
+
+      containerKey: (new Date()).getTime()
     }
 
-    this.MY_LOCATION_TEXT = 'My Current Location'
+    this.MY_LOCATION_TEXT = t('header.myLocation')
   }
 
   componentWillReceiveProps(prevProps) {
@@ -142,11 +145,12 @@ class PlanTrip extends Component {
       showMenuPopup, 
       showLanguagePopup,
       showFeedbackPopup,
-      feedbackText
+      feedbackText,
+      containerKey
     } = this.state
 
     return (
-      <View style={styles.container}>
+      <View style={styles.container} key={containerKey}>
 
         <PlanTripHeader 
           onFocus={(fromOrTo) => this.setState({ showAreas: true, fromOrTo, showActionSheet: false })}
@@ -165,7 +169,7 @@ class PlanTrip extends Component {
               Keyboard.dismiss()
               this.setState({ 
                 fromPoint: this.state.userLocation, 
-                fromName: this.MY_LOCATION_TEXT,
+                fromName: t('header.myLocation'),
                 showAreas: false 
               })
             } else {
@@ -233,6 +237,8 @@ class PlanTrip extends Component {
           isVisible={isTripDetailsVisible}
           close={() => this.setState({ isTripDetailsVisible: false })}
           trip={trip || {}}
+          fromName={fromName}
+          toName={toName}
         />
 
         <Popup
@@ -248,11 +254,11 @@ class PlanTrip extends Component {
         <Popup
           isVisible={showLanguagePopup}
           title={t('popup.language')}
-          subtitle={t('popup.feedbackSubtitle')}
+          subtitle={t('popup.chooseLanguage')}
           close={() => this.setState({ showLanguagePopup: false })}
           options={[
-            {title: "العربية", onPress: () => changeLanguage('ar'), mode: 'neutral'},  
-            {title: "English", onPress: () => changeLanguage('en'), mode: 'neutral'},  
+            {title: "العربية", onPress: () => {changeLanguage('ar'); this.setState({ showLanguagePopup: false }); }, mode: 'neutral'},  
+            {title: "English", onPress: () => {changeLanguage('en'); this.setState({ showLanguagePopup: false }); }, mode: 'neutral'},  
           ]}
         />
 
@@ -277,7 +283,7 @@ class PlanTrip extends Component {
         />
 
         {/* to trigger test events */}
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={{
             width: 40,
             height: 40,
@@ -288,9 +294,25 @@ class PlanTrip extends Component {
             justifyContent: 'center', alignItems: 'center'
           }}
           onPress={() => {
-            console.log(t('popup.settings'))
+            RNRestart.Restart()
+            // this.setState({ containerKey: (new Date()).getTime() })
           }}
         />
+        <TouchableOpacity
+          style={{
+            width: 40,
+            height: 40,
+            backgroundColor: 'steelblue',
+            position: 'absolute',
+            top: 120, left: 80,
+            borderRadius: 20,
+            justifyContent: 'center', alignItems: 'center'
+          }}
+          onPress={() => {
+            // RNRestart.Restart()
+            console.log(language, I18n.locale)
+          }}
+        /> */}
 
       </View>
     )
