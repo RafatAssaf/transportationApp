@@ -15,8 +15,6 @@ function * getRouteTracks (api, action) {
     }
   }
 
-  console.log(response.data)
-
   yield put(TrackingActions.trackRouteSuccess(response.data))
 }
 
@@ -25,7 +23,6 @@ function * getBusTrack (api, action) {
   const response = yield call(api.trackBus, busNum)
 
   if (response.ok) {
-    console.log(response)
     yield put(TrackingActions.trackBusSuccess(response.data))
   } else {
     yield put(TrackingActions.trackBusFailure())

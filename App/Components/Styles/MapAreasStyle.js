@@ -9,10 +9,10 @@ export default StyleSheet.create({
     overflow: 'hidden',
     backgroundColor: Colors.white,
     paddingHorizontal: 5,
-    paddingTop: 10
+    paddingTop: 0
   },
   header: {
-    height: 35,
+    height: 45,
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',

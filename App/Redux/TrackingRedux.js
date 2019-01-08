@@ -15,7 +15,8 @@ const { Types, Creators } = createActions({
   trackBusFailure: null, 
 
   //tracking the user
-  userLocation: ['location']
+  userLocation: ['location'],
+  reset: null
 })
 
 export const TrackingTypes = Types
@@ -78,8 +79,11 @@ export const busTrackFailure = state =>
   state.merge({ fetchingBusTrack: false, busTrackError: true, busTrack: null })
 
 
+
 export const userLocation = (state, { location }) => 
   state.merge({ userLocation: location })
+
+export const reset = () => INITIAL_STATE
 
 /* ------------- Hookup Reducers To Types ------------- */
 
@@ -92,5 +96,6 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.TRACK_BUS_SUCCESS]: busTrackSuccess,
   [Types.TRACK_BUS_FAILURE]: busTrackFailure,
 
-  [Types.USER_LOCATION]: userLocation
+  [Types.USER_LOCATION]: userLocation,
+  [Types.RESET]: reset
 })

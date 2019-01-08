@@ -31,10 +31,14 @@
         "distance": "المسافة",
         "duration": "المدة",
         "from": "من",
-        "to": "إلي",
+        "to": "إلى",
         "title": "تفاصيل الرحلة",
         "route1": "طريق ١", 
         "route2": "طريق ٢", 
         "route3": "طريق ٣"
+    },
+    "errors": {
+        "tripErrorTitle": "حدث خطأ ما",
+        "tripErrorSubtitle": "تعذر الحصول على رحلتك، حاول لاحقلاً"
     }
 }

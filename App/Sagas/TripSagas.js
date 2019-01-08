@@ -1,8 +1,10 @@
+import {Alert} from 'react-native'
 import { call, put, takeLatest} from 'redux-saga/effects'
 import TripActions, {TripTypes} from '../Redux/TripRedux'
 import PlolylinesActions, {} from '../Redux/PolylinesRedux'
 import TrackingActions from '../Redux/TrackingRedux'
 import Config from '../Config/DebugConfig'
+import {t} from '../I18n'
 
 //mock response
 import planTripReponse from '../Fixtures/planTrip'
@@ -19,7 +21,6 @@ export function * planTrip (api, action) {
   } else {
     response = yield call(api.planTrip, {fromPlace, toPlace})
   }
-  console.log(response)
   
   if ((response.ok && !response.data.error) || Config.useFixtures) {
     
@@ -38,7 +39,6 @@ export function * planTrip (api, action) {
     //     }
     //   }
     // }
-    // console.log(tracks)
     let routes = itineraries.map(iti => {
       return iti.legs.map(leg => leg.route)
     }).flat().filter(route => !!route)
@@ -56,6 +56,7 @@ export function * planTrip (api, action) {
     yield put(PlolylinesActions.polylinesRequest(polylines, locate))
 
   } else {
+    Alert.alert(t("errors.tripErrorTitle"), t("errors.tripErrorSubtitle"))
     yield put(TripActions.tripFailure())
   }
 }

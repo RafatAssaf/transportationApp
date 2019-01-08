@@ -68,6 +68,7 @@ export default class MapComponent extends Component {
           ref={r => this.mapRef = r}
           onLayout={ () => setRef(this.mapRef) } // give controll to the container
           showsUserLocation
+          showsMyLocationButton={false}
           loadingEnabled
           loadingIndicatorColor='#0003'
           loadingBackgroundColor='#fff'

@@ -4,7 +4,7 @@ const { width, height } = Dimensions.get('window')
 
 // Used via Metrics.baseMargins
 const metrics = {
-  statusbarHeight: (Platform.OS === 'ios') ? 0 : StatusBar.currentHeight,
+  statusbarHeight: 16,
   containerBorderRadius: 20,
   iconSize: 22,
   

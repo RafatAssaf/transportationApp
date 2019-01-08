@@ -6,7 +6,7 @@ export default StyleSheet.create({
     height: 60,
     width: '100%',
     justifyContent: 'center',
-    padding: 20,
+    padding: 30,
   },
   title: {
     fontSize: 26,

@@ -25,7 +25,6 @@ class Areas extends Component {
 
   filterAreas = (query) => {
     const {areas} = this.props
-    // console.log(areas)
     return query
     ? areas.filter(area => 
       ((area.name + area.description).toLowerCase().indexOf( `${query.toLowerCase()}` )) > 0).slice(0, 25)

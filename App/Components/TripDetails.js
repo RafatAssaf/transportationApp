@@ -45,7 +45,7 @@ export default class TripDetails extends Component {
     return (
       <View style={styles.walkLegContainer}>
         <View style={styles.walkLegHeader}>
-          <Icon size={Metrics.iconSize} color={Colors.coal} name='directions-walk' onPress={close}/>
+          <Icon size={Metrics.iconSize} color={Colors.coal} name='directions-walk'/>
           <Text style={styles.detailsTitle}>{t('details.walk')}</Text>
         </View>
         <View style={styles.walkLegDetailsContainer}>
@@ -66,17 +66,17 @@ export default class TripDetails extends Component {
     return (
       <View style={styles.walkLegContainer}>
         <View style={styles.walkLegHeader}>
-          <Icon size={Metrics.iconSize} color={Colors.coal} name='directions-bus' onPress={close}/>
+          <Icon size={Metrics.iconSize} color={Colors.coal} name='directions-bus'/>
           <Text style={styles.detailsTitle}>{bus.route}</Text>
         </View>
         <View style={styles.walkLegDetailsContainer}>
           <View style={styles.walkLegDataContainer}> 
             <Text style={styles.walkLegDataTitle}>{t('details.from')}</Text>
-            <Text style={styles.walkLegDataInfo}>Bus Station A</Text>
+            <Text style={styles.walkLegDataInfo}>{bus.from.name}</Text>
           </View>
           <View style={styles.walkLegDataContainer}> 
             <Text style={styles.walkLegDataTitle}>{t('details.to')}</Text>
-            <Text style={styles.walkLegDataInfo}>Bus Station B</Text>
+            <Text style={styles.walkLegDataInfo}>{bus.to.name}</Text>
           </View>
           <View style={styles.walkLegDataContainer}> 
             <Text style={styles.walkLegDataTitle}>{t('details.distance')}</Text>
@@ -139,7 +139,6 @@ export default class TripDetails extends Component {
                 </TouchableOpacity>
               </View>
 
-              {/* {console.log(this.renderItinerary(itinerary))} */}
               {this.renderItinerary(itinerary)}
 
             </ScrollView>

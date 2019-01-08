@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Platform } from 'react-native'
 import {Colors, Metrics} from '../../Themes'
 export default StyleSheet.create({
   // container: {
@@ -15,6 +15,7 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 10,
     alignItems: 'center',
+    marginTop: Platform.OS === 'ios'? Metrics.statusbarHeight: 0
   },
   headerText: {
     color: Colors.white,
@@ -23,10 +24,11 @@ export default StyleSheet.create({
   },
   detailsContainer: {
     flex: 1,
-    marginTop: 20,
+    // marginTop: 20,
     width: '90%',
     backgroundColor: Colors.white,
-    borderRadius: 10
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10
   },
   directionsContainer: {
     width: '100%',
@@ -49,7 +51,7 @@ export default StyleSheet.create({
   },
   directionsText: {
     fontSize: 14, 
-    color: Colors.coal
+    color: Colors.coal,
   },
   tabsContainer: {
     height: Metrics.navBarHeight,

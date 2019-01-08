@@ -38,6 +38,7 @@ export default StyleSheet.create({
   buttonText: {
     color: Colors.blueAccent,
     fontSize: 16,
-    margin: 5
+    margin: 5,
+    fontWeight: 'bold'
   }
 })

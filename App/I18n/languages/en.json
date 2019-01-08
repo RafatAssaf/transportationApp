@@ -36,5 +36,9 @@
         "route1": "Route 1", 
         "route2": "Route 2", 
         "route3": "Route 3"
+    },
+    "errors": {
+        "tripErrorTitle": "Something went wrong",
+        "tripErrorSubtitle": "Could not get that trip, please try again later"
     }
 }

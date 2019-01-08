@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, TextInput, StyleSheet, TouchableOpacity, Keyboard, Alert } from 'react-native'
+import { View, TextInput, StyleSheet, TouchableOpacity, Keyboard, Alert, Platform } from 'react-native'
 import { connect } from 'react-redux'
 import AreasActions,  {AreasSelectors}        from '../Redux/AreasRedux'
 import SearchActions, {SearchSelectors}       from '../Redux/SearchRedux'
@@ -97,7 +97,6 @@ class PlanTrip extends Component {
 
   filterAreas = (query) => {
     const {areas} = this.props
-    // console.log(areas)
     return query
     ? areas.filter(area => 
       ((area.name + area.description).toLowerCase().indexOf( `${query.toLowerCase()}` )) > 0).slice(0, 25)
@@ -123,6 +122,7 @@ class PlanTrip extends Component {
 
   cancelTrip = () => {
     this.props.cancelTrip()
+    this.props.resetTracks()
     this.setState({ fromName: '', toName: '', fromPoint: null, toPoint: null })
   }
 
@@ -163,7 +163,6 @@ class PlanTrip extends Component {
 
           selectUserLocation={() => {
             if(userLocation) { //if the location is fetched
-              console.log(userLocation)
               if(!showAreas) { this.mapRef.fitToCoordinates([ {latitude: userLocation.lat, longitude: userLocation.lon} ]) }
 
               Keyboard.dismiss()
@@ -282,38 +281,6 @@ class PlanTrip extends Component {
           ]}
         />
 
-        {/* to trigger test events */}
-        {/* <TouchableOpacity
-          style={{
-            width: 40,
-            height: 40,
-            backgroundColor: 'steelblue',
-            position: 'absolute',
-            top: 120, left: 25,
-            borderRadius: 20,
-            justifyContent: 'center', alignItems: 'center'
-          }}
-          onPress={() => {
-            RNRestart.Restart()
-            // this.setState({ containerKey: (new Date()).getTime() })
-          }}
-        />
-        <TouchableOpacity
-          style={{
-            width: 40,
-            height: 40,
-            backgroundColor: 'steelblue',
-            position: 'absolute',
-            top: 120, left: 80,
-            borderRadius: 20,
-            justifyContent: 'center', alignItems: 'center'
-          }}
-          onPress={() => {
-            // RNRestart.Restart()
-            console.log(language, I18n.locale)
-          }}
-        /> */}
-
       </View>
     )
   }
@@ -347,6 +314,7 @@ const mapDispatchToProps = (dispatch) => {
     decodePolyline: (polyline)  => dispatch(PolylinesActions.polylinesRequest(polyline)),
     getBusTrack   : (busNum)    => dispatch(TrackingActions.trackBusRequest(busNum)),
     getRouteTracks: (routes)     => dispatch(TrackingActions.trackRouteRequest(routes)),
+    resetTracks   : ()          => dispatch(TrackingActions.reset()),
     planTrip      : (from, to, cb)  => dispatch(TripActions.tripRequest(from, to, cb)),
     cancelTrip    : ()          => dispatch(TripActions.tripCancel()),
     changeLanguage: (language)  => dispatch(SettingsActions.changeLanguage(language)) 

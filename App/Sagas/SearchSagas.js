@@ -8,7 +8,6 @@ function * search (api, action) {
   const response = yield call(api.search, query)
   
   if (response.ok) {
-    console.log(response.data)
     yield put(SearchActions.searchSuccess(response.data))
   } else {
     yield put(SearchActions.searchFailure())
@@ -20,7 +19,6 @@ function * reverseGeoCode (api, action) {
   const response = yield call(api.reverseGeocode, lat, lon)
   
   if (response.ok) {
-    console.log(response.data)
     yield put(SearchActions.reverseGeoCodeSuccess(response.data))
   } else {
     yield put(SearchActions.reverseGeocodeFailure())
